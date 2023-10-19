@@ -1,0 +1,44 @@
+config:
+  target: 'https://localhost:8080'
+  phases:
+    - duration: 1
+      arrivalCount: 1
+      name: "Experiment Phase"
+  defaults:
+    headers:
+      Content-Type: "application/json"
+      Authorization: "Bearer {{ token }}"
+  processor: "./payload-functions.js"
+  tls:
+    rejectUnauthorized: false
+
+scenarios:
+  - flow:
+      - loop:
+        - function: "generateToken"
+        - post:
+            url: "/gateway/scenarioA/service1"
+            json:
+              token: "{{ token }}"
+              payload: "{{ payload }}"
+            headers:
+              Content-Type: "application/json"
+              Authorization: "Bearer {{ token }}"
+        - post:
+            url: "/gateway/scenarioB/service2"
+            json:
+              token: "{{ token }}"
+              payload: "{{ payload }}"
+            headers:
+              Content-Type: "application/json"
+              Authorization: "Bearer {{ token }}"
+        - post:
+            url: "/gateway/scenarioC/service3"
+            json:
+              token: "{{ token }}"
+              payload: "{{ payload }}"
+            headers:
+              Content-Type: "application/json"
+              Authorization: "Bearer {{ token }}"
+        - think: 0
+        count: 1

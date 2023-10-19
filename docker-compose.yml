@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./certs:/certs
+    environment:
+      - USE_HTTPS_FOR_SERVICES=${USE_HTTPS_FOR_SERVICES}
+
+  service1:
+    build: ./service1
+    volumes:
+      - ./certs:/certs
+
+  service2:
+    build: ./service2
+    volumes:
+      - ./certs:/certs
+
+  service3:
+    build: ./service3
+    volumes:
+      - ./certs:/certs
